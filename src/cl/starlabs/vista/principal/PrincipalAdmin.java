@@ -6,6 +6,8 @@
 package cl.starlabs.vista.principal;
 
 import cl.starlabs.controladores.AgendaJpaController;
+import cl.starlabs.controladores.MascotaJpaController;
+import cl.starlabs.controladores.PropietarioJpaController;
 import cl.starlabs.herramientas.HerramientasRapidas;
 import cl.starlabs.modelo.Agenda;
 import cl.starlabs.modelo.Sucursal;
@@ -77,6 +79,8 @@ public class PrincipalAdmin extends javax.swing.JFrame {
         setIconImage(icon);
         setVisible(true);
         rellenarEventosDefault();
+        lblNumPropietarios.setText(new PropietarioJpaController(emf).getPropietarioCount()+" Propietarios");
+        lblNumPacientes.setText(new MascotaJpaController(emf).getMascotaCount()+" Pacientes");
     }
     
      public PrincipalAdmin(Usuarios u, Sucursal s) {
@@ -94,6 +98,8 @@ public class PrincipalAdmin extends javax.swing.JFrame {
         setIconImage(icon);
         setVisible(true);
         rellenarEventosDefault();
+        lblNumPropietarios.setText(new PropietarioJpaController(emf).getPropietarioCount()+" Propietarios");
+        lblNumPacientes.setText(new MascotaJpaController(emf).getMascotaCount()+" Pacientes");
     }
 
      
@@ -137,14 +143,8 @@ public class PrincipalAdmin extends javax.swing.JFrame {
         panelResumen = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
         lblNumPropietarios = new javax.swing.JLabel();
         lblNumPacientes = new javax.swing.JLabel();
-        lblNumCumpleaños = new javax.swing.JLabel();
-        lblNumHospitalizados = new javax.swing.JLabel();
-        lblHoraSistema = new javax.swing.JLabel();
         panelProximasAtenciones = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tablaAtencionesProximas = new javax.swing.JTable();
@@ -224,21 +224,9 @@ public class PrincipalAdmin extends javax.swing.JFrame {
 
         jLabel2.setText("Pacientes Registrados");
 
-        jLabel3.setText("Cumpleaños de Pacientes");
-
-        jLabel4.setText("Pacientes Hospitalizados");
-
-        jLabel5.setText("Hora del Servidor");
-
         lblNumPropietarios.setText("0 Propietarios");
 
         lblNumPacientes.setText("0 Pacientes");
-
-        lblNumCumpleaños.setText("0 Cumpleaños hoy");
-
-        lblNumHospitalizados.setText("0 Pacientes hospitalizados");
-
-        lblHoraSistema.setText("00:00:00 del 00 de mes de 0000");
 
         javax.swing.GroupLayout panelResumenLayout = new javax.swing.GroupLayout(panelResumen);
         panelResumen.setLayout(panelResumenLayout);
@@ -247,25 +235,13 @@ public class PrincipalAdmin extends javax.swing.JFrame {
             .addGroup(panelResumenLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(panelResumenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panelResumenLayout.createSequentialGroup()
-                        .addGroup(panelResumenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel1))
-                        .addGap(31, 31, 31)
-                        .addGroup(panelResumenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblNumPropietarios)
-                            .addComponent(lblNumPacientes)))
-                    .addGroup(panelResumenLayout.createSequentialGroup()
-                        .addGroup(panelResumenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel5))
-                        .addGap(26, 26, 26)
-                        .addGroup(panelResumenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblHoraSistema)
-                            .addComponent(lblNumHospitalizados)
-                            .addComponent(lblNumCumpleaños))))
-                .addContainerGap(84, Short.MAX_VALUE))
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel1))
+                .addGap(31, 31, 31)
+                .addGroup(panelResumenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblNumPropietarios)
+                    .addComponent(lblNumPacientes))
+                .addContainerGap(173, Short.MAX_VALUE))
         );
         panelResumenLayout.setVerticalGroup(
             panelResumenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -278,19 +254,7 @@ public class PrincipalAdmin extends javax.swing.JFrame {
                 .addGroup(panelResumenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(lblNumPacientes))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(panelResumenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(lblNumCumpleaños))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(panelResumenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(lblNumHospitalizados))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(panelResumenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5)
-                    .addComponent(lblHoraSistema))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(71, Short.MAX_VALUE))
         );
 
         panelProximasAtenciones.setBorder(javax.swing.BorderFactory.createTitledBorder("Próximas Atenciones Agendadas"));
@@ -339,6 +303,11 @@ public class PrincipalAdmin extends javax.swing.JFrame {
 
         btnAddEvento.setIcon(new javax.swing.ImageIcon(getClass().getResource("/cl/starlabs/imagenes/iconos/date.png"))); // NOI18N
         btnAddEvento.setText("Agendar Evento");
+        btnAddEvento.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddEventoActionPerformed(evt);
+            }
+        });
 
         btnBloquearTerminal.setIcon(new javax.swing.ImageIcon(getClass().getResource("/cl/starlabs/imagenes/sistema/logo_mini.png"))); // NOI18N
         btnBloquearTerminal.setText("Bloquear Terminal");
@@ -973,6 +942,10 @@ public class PrincipalAdmin extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_tablaAtencionesProximasMouseClicked
 
+    private void btnAddEventoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddEventoActionPerformed
+        new AgendaAtencion(s).setVisible(true);
+    }//GEN-LAST:event_btnAddEventoActionPerformed
+
     
     /**
      * @param args the command line arguments
@@ -1033,9 +1006,6 @@ public class PrincipalAdmin extends javax.swing.JFrame {
     private javax.swing.JMenuItem confAdminVacunas;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu8;
     private javax.swing.JMenu jMenu9;
@@ -1045,9 +1015,6 @@ public class PrincipalAdmin extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPopupMenu.Separator jSeparator1;
-    private javax.swing.JLabel lblHoraSistema;
-    private javax.swing.JLabel lblNumCumpleaños;
-    private javax.swing.JLabel lblNumHospitalizados;
     private javax.swing.JLabel lblNumPacientes;
     private javax.swing.JLabel lblNumPropietarios;
     private javax.swing.JMenu menAdmin;

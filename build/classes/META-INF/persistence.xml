@@ -38,7 +38,7 @@
     <class>cl.starlabs.modelo.DetalleUsuarios</class>
     <class>cl.starlabs.modelo.TipoPatologia</class>
     <properties>
-      <property name="javax.persistence.jdbc.url" value="jdbc:sqlserver://syncpet.noip.me\SQLEXPRESS;databaseName=syncpet"/>
+      <property name="javax.persistence.jdbc.url" value="jdbc:sqlserver://localhost\SQLEXPRESS;databaseName=syncpet"/>
       <property name="javax.persistence.jdbc.user" value="syncpet"/>
       <property name="javax.persistence.jdbc.driver" value="com.microsoft.sqlserver.jdbc.SQLServerDriver"/>
       <property name="javax.persistence.jdbc.password" value="alfacentauro$$"/>

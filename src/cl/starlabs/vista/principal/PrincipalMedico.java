@@ -5,9 +5,12 @@
  */
 package cl.starlabs.vista.principal;
 
+import cl.starlabs.controladores.AgendaJpaController;
+import cl.starlabs.modelo.Agenda;
 import cl.starlabs.modelo.Sucursal;
 import cl.starlabs.modelo.Usuarios;
-import cl.starlabs.vista.fichamedica.Anamnesis;
+import cl.starlabs.vista.agenda.AgendaAtencion;
+import cl.starlabs.vista.fichamedica.VistaAnamnesis;
 import cl.starlabs.vista.login.PantallaBloqueo;
 import cl.starlabs.vista.paciente.BuscarPaciente;
 import cl.starlabs.vista.paciente.DetalleProgenitores;
@@ -18,7 +21,13 @@ import cl.starlabs.vista.propietario.ListarPropietarios;
 import cl.starlabs.vista.propietario.RegistroPropietario;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 import javax.swing.UIManager;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -28,7 +37,8 @@ public class PrincipalMedico extends javax.swing.JFrame {
 
     Usuarios u = null;
     Sucursal s = null;
-        
+    EntityManagerFactory emf = Persistence.createEntityManagerFactory("SyncPetPU");
+    
     public PrincipalMedico() {
         initComponents();
         //centrando ventana
@@ -37,6 +47,7 @@ public class PrincipalMedico extends javax.swing.JFrame {
         Image icon = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/cl/starlabs/imagenes/sistema/logo_renovado.png"));
         setIconImage(icon);
         setVisible(true);
+        rellenarEventosDefault();
     }
 
     public PrincipalMedico(Usuarios u, Sucursal s) {
@@ -52,7 +63,38 @@ public class PrincipalMedico extends javax.swing.JFrame {
         Image icon = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/cl/starlabs/imagenes/sistema/logo_renovado.png"));
         setIconImage(icon);
         setVisible(true);
+        rellenarEventosDefault();
     }
+    
+    public void rellenarEventosDefault() {
+        DefaultTableModel modelo = new DefaultTableModel(new Object [][] { }, new String [] { "Hora", "Evento", "Paciente", "Propietario" });
+        Calendar inicio = new GregorianCalendar();
+        inicio.set(Calendar.MILLISECOND, 000);
+        Calendar finali = new GregorianCalendar();
+        finali.set(Calendar.HOUR_OF_DAY, 23);
+        finali.set(Calendar.MINUTE, 59);
+        finali.set(Calendar.SECOND, 59);
+        finali.set(Calendar.MILLISECOND, 999);
+        
+        for(Agenda a : new AgendaJpaController(emf).eventosPorFecha(inicio.getTime(), finali.getTime())) {
+            Object[] obj = new Object[4];
+            obj[0] = new SimpleDateFormat("HH:mm").format(a.getFechaEvento());
+            obj[1] = a.getIdEvento();
+            obj[2] = a.getAgendaDetalleList().get(0).getMascota().getNombre();
+            obj[3] = a.getAgendaDetalleList().get(0).getMascota().getPropietario().getNombres().split(" ")[0]+" "+a.getAgendaDetalleList().get(0).getMascota().getPropietario().getApaterno();
+            modelo.addRow(obj);
+        }
+        //arreglar este método
+        
+        tablaAtencionesProximas.setModel(modelo);
+        tablaAtencionesProximas.getColumnModel().getColumn(0).setMaxWidth(45);
+        tablaAtencionesProximas.getColumnModel().getColumn(0).setMinWidth(45);
+        tablaAtencionesProximas.getColumnModel().getColumn(0).setWidth(45);
+        tablaAtencionesProximas.getColumnModel().getColumn(1).setMaxWidth(45);
+        tablaAtencionesProximas.getColumnModel().getColumn(1).setMinWidth(45);
+        tablaAtencionesProximas.getColumnModel().getColumn(1).setWidth(45);
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -110,10 +152,7 @@ public class PrincipalMedico extends javax.swing.JFrame {
 
         tablaAtencionesProximas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
                 "Paciente", "Propietario", "Hora", "Acciones"
@@ -152,6 +191,11 @@ public class PrincipalMedico extends javax.swing.JFrame {
 
         btnAddEvento.setIcon(new javax.swing.ImageIcon(getClass().getResource("/cl/starlabs/imagenes/iconos/date.png"))); // NOI18N
         btnAddEvento.setText("Agendar Evento");
+        btnAddEvento.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddEventoActionPerformed(evt);
+            }
+        });
 
         btnBloquearTerminal.setIcon(new javax.swing.ImageIcon(getClass().getResource("/cl/starlabs/imagenes/sistema/logo_mini.png"))); // NOI18N
         btnBloquearTerminal.setText("Bloquear Terminal");
@@ -164,6 +208,11 @@ public class PrincipalMedico extends javax.swing.JFrame {
         btnModoUrgencia.setBackground(new java.awt.Color(255, 153, 153));
         btnModoUrgencia.setIcon(new javax.swing.ImageIcon(getClass().getResource("/cl/starlabs/imagenes/iconos/exclamation.png"))); // NOI18N
         btnModoUrgencia.setText("Modo Atención Urgencia");
+        btnModoUrgencia.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnModoUrgenciaActionPerformed(evt);
+            }
+        });
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Atención Actual"));
 
@@ -499,8 +548,16 @@ public class PrincipalMedico extends javax.swing.JFrame {
     }//GEN-LAST:event_btnBloquearTerminalActionPerformed
 
     private void menFicha_anamnesisActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menFicha_anamnesisActionPerformed
-        new Anamnesis(u).setVisible(true);
+        new VistaAnamnesis(u).setVisible(true);
     }//GEN-LAST:event_menFicha_anamnesisActionPerformed
+
+    private void btnAddEventoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddEventoActionPerformed
+        new AgendaAtencion(s).setVisible(true);
+    }//GEN-LAST:event_btnAddEventoActionPerformed
+
+    private void btnModoUrgenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModoUrgenciaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnModoUrgenciaActionPerformed
 
     /**
      * @param args the command line arguments

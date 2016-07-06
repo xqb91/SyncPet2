@@ -38,7 +38,7 @@ public class VistaDesparacitaciones extends javax.swing.JFrame {
         this.m = mascota;
         this.v = veterinario;
         hr.insertarTexto(lblMascota, m.getNombre());
-        hr.insertarTexto(lblVeterinario, v.getNombres());
+        hr.insertarTexto(lblVeterinario, v.getNombres().split(" ")[0]+" "+v.getApaterno());
     }
 
     /**

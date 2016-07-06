@@ -229,4 +229,25 @@ public class AnamnesisJpaController implements Serializable {
         }
     }
     
+    public Integer ultimo(){
+        try {
+            Query consulta = getEntityManager().createNamedQuery("Anamnesis.findAllDesc");
+            consulta.setMaxResults(1);
+            return ((Anamnesis)consulta.getSingleResult()).getIdAnamnesis()+1;
+        } catch (Exception e) {
+            return 1;
+        }
+    }
+    
+    public Anamnesis buscarPorMascota(Mascota mascota)
+    {
+        try {
+            Query consulta = getEntityManager().createNamedQuery("Anamnesis.findByMascota");
+            consulta.setParameter("mascota", mascota);
+            consulta.setMaxResults(1);
+            return (Anamnesis)consulta.getSingleResult();
+        } catch (Exception e) {
+            return null;
+        }
+    }
 }
