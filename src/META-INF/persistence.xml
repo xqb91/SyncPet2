@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+  <persistence-unit name="SyncPetPU" transaction-type="RESOURCE_LOCAL">
+    <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+    <class>cl.starlabs.modelo.Raza</class>
+    <class>cl.starlabs.modelo.Region</class>
+    <class>cl.starlabs.modelo.Vacunas</class>
+    <class>cl.starlabs.modelo.Propietario</class>
+    <class>cl.starlabs.modelo.Sucursal</class>
+    <class>cl.starlabs.modelo.Farmacos</class>
+    <class>cl.starlabs.modelo.Desparacitaciones</class>
+    <class>cl.starlabs.modelo.Anamnesis</class>
+    <class>cl.starlabs.modelo.Pais</class>
+    <class>cl.starlabs.modelo.AgendaDetalle</class>
+    <class>cl.starlabs.modelo.Clinica</class>
+    <class>cl.starlabs.modelo.Procedimientos</class>
+    <class>cl.starlabs.modelo.Veterinario</class>
+    <class>cl.starlabs.modelo.Especie</class>
+    <class>cl.starlabs.modelo.Comuna</class>
+    <class>cl.starlabs.modelo.Provincia</class>
+    <class>cl.starlabs.modelo.Examenes</class>
+    <class>cl.starlabs.modelo.TipoContraindicacion</class>
+    <class>cl.starlabs.modelo.Hospitalizacion</class>
+    <class>cl.starlabs.modelo.Mascota</class>
+    <class>cl.starlabs.modelo.TipoProcedimiento</class>
+    <class>cl.starlabs.modelo.TipoExamen</class>
+    <class>cl.starlabs.modelo.Patologias</class>
+    <class>cl.starlabs.modelo.Agenda</class>
+    <class>cl.starlabs.modelo.TipoAlergia</class>
+    <class>cl.starlabs.modelo.Caracter</class>
+    <class>cl.starlabs.modelo.Historialvacunas</class>
+    <class>cl.starlabs.modelo.TipoFarmaco</class>
+    <class>cl.starlabs.modelo.Alergias</class>
+    <class>cl.starlabs.modelo.Contraindicaciones</class>
+    <class>cl.starlabs.modelo.Habitad</class>
+    <class>cl.starlabs.modelo.Usuarios</class>
+    <class>cl.starlabs.modelo.Perfiles</class>
+    <class>cl.starlabs.modelo.DetalleUsuarios</class>
+    <class>cl.starlabs.modelo.TipoPatologia</class>
+    <properties>
+      <property name="javax.persistence.jdbc.url" value="jdbc:sqlserver://syncpet.noip.me\SQLEXPRESS;databaseName=syncpet"/>
+      <property name="javax.persistence.jdbc.user" value="syncpet"/>
+      <property name="javax.persistence.jdbc.driver" value="com.microsoft.sqlserver.jdbc.SQLServerDriver"/>
+      <property name="javax.persistence.jdbc.password" value="alfacentauro$$"/>
+    </properties>
+  </persistence-unit>
+</persistence>
